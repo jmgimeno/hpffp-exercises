@@ -2,12 +2,12 @@ name:                hpffp-exercices
 version:             0.1.0.0
 -- synopsis:
 -- description:
-homepage:            https://github.com/githubuser/hpffp-exercices#readme
+homepage:            https://github.com/jmgimeno/hpffp-exercices#readme
 license:             BSD3
 license-file:        LICENSE
-author:              Author name here
-maintainer:          example@example.com
-copyright:           2017 Author name here
+author:              Juan Manuel Gimeno Illa
+maintainer:          jmgimeno@gmail.com
+copyright:           2017 Juan Manuel Gimeno Illa
 category:            Web
 build-type:          Simple
 cabal-version:       >=1.10
