@@ -15,12 +15,16 @@ module Chapter25.Compose where
 
     (<*>) :: Compose f g (a -> b) -> Compose f g a -> Compose f g b
     (Compose fgab) <*> (Compose fga)
-      = Compose $ (\gab ga -> gab <*> ga) <$> fgab <*> fga
+      = Compose $ (<*>) <$> fgab <*> fga
+    -- And my solution was the same (but much less elegant)
+    --   Compose $ (\gab ga -> gab <*> ga) <$> fgab <*> fga
 
   instance (Foldable f, Foldable g) => Foldable (Compose f g) where
     foldMap :: Monoid m => (a -> m) -> Compose f g a -> m
-    foldMap f (Compose fga) = foldMap (\ga -> foldMap f ga) fga
-
+    foldMap f (Compose fga) = foldMap (foldMap f) fga
+    -- Initially was: foldMap (\ga -> foldMap f ga) fga
   instance (Traversable f, Traversable g) => Traversable (Compose f g) where
     traverse :: Applicative m => (a -> m b) -> Compose f g a -> m (Compose f g b)
-    traverse f (Compose fga) = fmap Compose $ traverse (\ga -> traverse f ga) fga
+    traverse f (Compose fga) = fmap Compose $ traverse (traverse f) fga
+    -- Initially was: = fmap Compose $ traverse (\ga -> traverse f ga) fga
+    
