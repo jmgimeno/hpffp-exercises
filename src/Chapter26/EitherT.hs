@@ -25,3 +25,16 @@ module EitherT where
                              case eea of
                                Left e  -> return $ Left e
                                Right a -> runEitherT (f a)
+
+  swapEither :: Either e a -> Either a e
+  swapEither (Left e)  = Right e
+  swapEither (Right a) = Left a
+
+  swapEitherT :: (Functor m) => EitherT e m a -> EitherT a m e
+  swapEitherT =  EitherT . fmap swapEither . runEitherT
+
+  eitherT :: Monad m => (a -> m c) -> (b -> m c) -> EitherT a m b -> m c
+  eitherT f g (EitherT meab) = do eab <- meab
+                                  case eab of
+                                    Left a  -> f a
+                                    Right b -> g b
