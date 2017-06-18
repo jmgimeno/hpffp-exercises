@@ -34,7 +34,4 @@ module EitherT where
   swapEitherT =  EitherT . fmap swapEither . runEitherT
 
   eitherT :: Monad m => (a -> m c) -> (b -> m c) -> EitherT a m b -> m c
-  eitherT f g (EitherT meab) = do eab <- meab
-                                  case eab of
-                                    Left a  -> f a
-                                    Right b -> g b
+  eitherT f g (EitherT meab) = meab >>= either f g
